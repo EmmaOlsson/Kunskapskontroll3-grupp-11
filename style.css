@@ -1,24 +1,41 @@
 main {
-    height: 100vh;
-    width: 100%;
+    background-color: azure;
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
 }
+header {
+    display: flex;
+    justify-content: space-around;
+}
+.title {
+    text-align: center;
+}
+.top-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.game-wrap {
+    height: 80vh;
+    width: 80%;
+    display: grid;
+    grid-template-columns: repeat(6, minmax(5rem, 16%));
+    grid-template-rows: repeat(4, repeat(minmax(5rem, 8rem)));
+    gap: calc(10px + 1%); 
+}
 
-.dice {
-    width: 5rem;
-    height: 5rem;
-    background: white;
+aside {
+    position: relative;
+    height: auto;
+    background-color: aqua;
+    border: .5rem solid blue;
 }
-.dice-1 {
-    width: 5rem;
-    height: 5rem;
-    background: white;
-}
-.dice-2 {
-    width: 5rem;
-    height: 5rem;
-    background: white;
-}
+    aside::before {
+        content: '';
+        position: absolute;
+        background-image: url(./Thinking-of-getting-a-cat.png);
+        height: 100%;
+        width: 100%;
+        background-position: center center;
+    }
