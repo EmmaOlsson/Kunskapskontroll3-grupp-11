@@ -1,9 +1,16 @@
+
+
 .dice {
     width: 5rem;
     height: 5rem;
     background: white;
 }
 .dice-1 {
+    width: 5rem;
+    height: 5rem;
+    background: white;
+}
+.dice-2 {
     width: 5rem;
     height: 5rem;
     background: white;
