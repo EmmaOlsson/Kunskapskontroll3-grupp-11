@@ -47,5 +47,5 @@ aside {
     }
     aside::after {
         content: '?';
-        font-size: 3rem;
+        font-size: 5rem;
     }
