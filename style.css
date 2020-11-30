@@ -45,6 +45,9 @@ aside {
     position: relative;
     height: auto;
     background-color: rgb(0, 241, 241);
+    background-image: url(./download.jfif);
+    background-position: center;
+    background-repeat: no-repeat;
     border: .5rem solid navy;
     display: flex;
     justify-content: center;
