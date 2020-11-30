@@ -1,3 +1,7 @@
+body {
+    padding: 0;
+    margin: 0;
+}
 main {
     background-color: azure;
     display: flex;
@@ -30,12 +34,18 @@ aside {
     height: auto;
     background-color: aqua;
     border: .5rem solid blue;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
     aside::before {
         content: '';
         position: absolute;
-        background-image: url(./Thinking-of-getting-a-cat.png);
         height: 100%;
         width: 100%;
         background-position: center center;
+    }
+    aside::after {
+        content: '?';
+        font-size: 3rem;
     }
