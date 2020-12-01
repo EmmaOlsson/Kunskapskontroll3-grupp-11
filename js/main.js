@@ -1,4 +1,4 @@
-fetch('https://www.flickr.com/services/rest/?api_key=ede2a0d6e77e60346537e570cfab9800&method=flickor.photos.search&text=soda&format=json&nojsoncallback')
+fetch('https://www.flickr.com/services/rest/?api_key=ede2a0d6e77e60346537e570cfab9800&method=flickr.photos.search&text=soda&format=json&nojsoncallback=1')
 .then(function(response){
 
   if(response.status >= 200 && response.status <300){
