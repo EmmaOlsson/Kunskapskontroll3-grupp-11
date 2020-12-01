@@ -1,4 +1,3 @@
-
 // Setting the api-key to a variable
 const keyAPI = 'ede2a0d6e77e60346537e570cfab9800';
 
@@ -9,7 +8,6 @@ const keySecret = '1d5f8c611d8e8096?';
 const catGallery = '72157717105466456';
 const dogGallery = '72157717117782237';
 const horseGallery = '72157717118951277';
-
 
 // Selects and sets a variable for the gallery-buttons from HTML
 let catButton = document.querySelector('#cat-button')
@@ -22,14 +20,10 @@ function chooseGallery(){
 }
 catButton.addEventListener('click', chooseGallery);
 
-
-
 // If the user clicks on cat, the urlGallery = catGallery
 let urlGallery = chooseGallery();
 
 let url = `https://www.flickr.com/services/rest/?method=flickr.galleries.getPhotos&api_key=${keyAPI}&gallery_id=${urlGallery}&format=json&nojsoncallback=1?secret=${keySecret}`;
-
-
 
 fetch(url)
 .then(function(response){
@@ -60,10 +54,7 @@ fetch(url)
         let memoryCard = document.createElement('aside')
         gameWrap.appendChild(memoryCard)
         memoryCard.style.backgroundImage = imageUrl;
-
     }
-
-
         let imageUrl = `url(https://live.staticflickr.com/${serverId}/${id}_${secret}_${sizeSuffix}.jpg)`;
 
       console.log(imageUrl);
