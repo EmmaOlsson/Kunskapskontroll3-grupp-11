@@ -11,6 +11,7 @@ fetch('https://www.flickr.com/services/rest/?method=flickr.galleries.getPhotos&a
 })
 .then(
 
+    
     function(data){
       console.log(data)
 
@@ -19,7 +20,7 @@ fetch('https://www.flickr.com/services/rest/?method=flickr.galleries.getPhotos&a
       let secret = data.photos.photo[0].secret;
       let sizeSuffix = 'm';
 
-      let imageUrl = `url(https://live.staticflickr.com/${serverId}/${id}_${secret}_${sizeSuffix}.jpg)`;
+      let imageUrl = `url(https://live.staticflickr.com/${serverId}/${id}_${secret}_${sizeSuffix}.jpg)`; 
 
       console.log(imageUrl);
 
