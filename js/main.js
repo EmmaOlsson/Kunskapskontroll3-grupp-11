@@ -18,7 +18,7 @@ let dogButton = document.querySelector('#dog-button')
 // Skapar kort-objekt
 function Card(n, _serverId, _id, _secret){
   this.imageNumber = n;
-  this.imageLink = `https://live.staticflickr.com/${_serverId}/${_id}_${_secret}_m.jpg`
+  this.imageLink = `https://live.staticflickr.com/${_serverId}/${_id}_${_secret}_m.jpg`;
 }
 
 // Set this to a 
@@ -36,47 +36,57 @@ let url = `https://www.flickr.com/services/rest/?method=flickr.galleries.getPhot
 
 
 fetch(url)
-  .then(function (response) {
-    if (response.status >= 200 && response.status < 300) {
-      return response.json();
+.then(function (response) {
+  if (response.status >= 200 && response.status < 300) {
+    return response.json();
+  }
+})
+.then(
+  function (data) {
+    console.log(data)
+
+    let total = data.photos.total;
+
+    let sizeSuffix = 'm';
+
+    let gameWrap = document.querySelector('.game-wrap');
+
+    let cardDeck = []; //Kortleken.
+
+    for (let i = 0; i<2; i++){ // Lägger in samma bilder två gånger.
+      for (let j = 0; j < total; j++){ //Lägger in alla olika bilder i arrayn.
+        let id = data.photos.photo[j].id;
+        let serverId = data.photos.photo[j].server;
+        let secret = data.photos.photo[j].secret;
+
+        let card = new Card(j, serverId, id, secret);
+        cardDeck.push(card);
+      }
     }
-  })
-  .then(
-    function (data) {
-      console.log(data)
+    cardDeck.sort( (a, b) => 0.5 - Math.random() ); //Blandar kortleken.
+    console.log(cardDeck);
 
-      let total = data.photos.total;
-
-      let sizeSuffix = 'm';
-
+    for (let i = 0; i < cardDeck.length; i++){
       let gameWrap = document.querySelector('.game-wrap');
-      // let imageUrl = `url(https://live.staticflickr.com/${serverId}/${id}_${secret}_${sizeSuffix}.jpg)`;
-
-      let cardDeck = []; //Kortleken
-
-      for (let i = 0; i<2; i++){ // Lägger in samma bilder två gånger.
-        for (let j = 0; j < total; j++){ //Lägger in alla olika bilder i arrayn.
-          let id = data.photos.photo[j].id;
-          let serverId = data.photos.photo[j].server;
-          let secret = data.photos.photo[j].secret;
-
-          let card = new Card(j, serverId, id, secret);
-          cardDeck.push(card);
-        }
+      let memoryCard = document.createElement('aside');
+      memoryCard.classList.add('card');
+      memoryCard.style.backgroundImage = `url(${cardDeck[i].imageLink})`;
+      gameWrap.appendChild(memoryCard);
+      console.log(cardDeck[i].imageLink);
+    };
+    console.log(gameWrap);
+    console.log(gameWrap.children);
+    
+    const card = document.querySelector('.game-wrap');
+    card.addEventListener('click', function(e){
+      if (e.target.classList.contains('card')){
+        e.target.classList = '';
+        e.target.classList.add('card-show-image');
       }
-      cardDeck.sort( (a, b) => 0.5 - Math.random() ); //Blandar kortleken.
-      console.log(cardDeck);
-
-      for (let i = 0; i < cardDeck.length; i++){
-        let gameWrap = document.querySelector('.game-wrap');
-        let memoryCard = document.createElement('aside');
-        memoryCard.style.backgroundImage = `url(${cardDeck[i].imageLink})`;
-        gameWrap.appendChild(memoryCard);
-        console.log(cardDeck[i].imageLink);
-      }
-    }
-  ).catch(
-    error => {
-      console.log('Fel: ', error);
-    }
-  )
+    });
+  }
+).catch(
+  error => {
+    console.log('Fel: ', error);
+  }
+);
