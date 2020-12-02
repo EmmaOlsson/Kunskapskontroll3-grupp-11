@@ -12,8 +12,8 @@ const horseGallery = '72157717118951277';
 
 // Selects and sets a variable for the gallery-buttons from HTML
 let catButton = document.querySelector('#cat-button')
-let dogButton = document.querySelector('#dog-button')
 let horseButton = document.querySelector('#horse-button')
+let dogButton = document.querySelector('#dog-button')
 
 // Skapar kort-objekt
 function Card(n, _serverId, _id, _secret){
@@ -23,6 +23,7 @@ function Card(n, _serverId, _id, _secret){
 
 // Set this to a 
 function chooseGallery() {
+
   return catGallery;
 }
 
@@ -51,7 +52,7 @@ fetch(url)
       let gameWrap = document.querySelector('.game-wrap');
       // let imageUrl = `url(https://live.staticflickr.com/${serverId}/${id}_${secret}_${sizeSuffix}.jpg)`;
 
-      let cardDeck = [];
+      let cardDeck = []; //Kortleken
 
       for (let i = 0; i<2; i++){ // Lägger in samma bilder två gånger.
         for (let j = 0; j < total; j++){ //Lägger in alla olika bilder i arrayn.
@@ -63,7 +64,6 @@ fetch(url)
           cardDeck.push(card);
         }
       }
-      console.log(cardDeck);
       cardDeck.sort( (a, b) => 0.5 - Math.random() ); //Blandar kortleken.
       console.log(cardDeck);
 
@@ -72,34 +72,11 @@ fetch(url)
         let memoryCard = document.createElement('aside');
         memoryCard.style.backgroundImage = `url(${cardDeck[i].imageLink})`;
         gameWrap.appendChild(memoryCard);
-        console.log(cardDeck[i].imageLink)
+        console.log(cardDeck[i].imageLink);
       }
-      /* for (let i = 0; i < total; i++) {
-
-        let randomNum = Math.floor(Math.random() * 12);
-
-        let id = data.photos.photo[i].id;
-        let serverId = data.photos.photo[i].server;
-        let secret = data.photos.photo[i].secret;
-
-        let sizeSuffix = 'm';
-
-        let gameWrap = document.querySelector('.game-wrap');
-        let imageUrl = `url(https://live.staticflickr.com/${serverId}/${id}_${secret}_${sizeSuffix}.jpg)`;
-
-
-
-        for (j = 0; j < 2; j++) {
-          let memoryCard = document.createElement('aside');
-          gameWrap.appendChild(memoryCard);
-          memoryCard.style.backgroundImage = imageUrl;
-          console.log(id)
-        }
-      } */
-      
-      /* 
-      let cit = document.querySelector('aside');
-      cit.style.backgroundImage = imageUrl; 
-      */
+    }
+  ).catch(
+    error => {
+      console.log('Fel: ', error);
     }
   )
