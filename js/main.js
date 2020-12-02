@@ -59,7 +59,7 @@ fetch(url)
           let serverId = data.photos.photo[j].server;
           let secret = data.photos.photo[j].secret;
 
-          let card = new Card(j, id, serverId, secret);
+          let card = new Card(j, serverId, id, secret);
           cardDeck.push(card);
         }
       }
