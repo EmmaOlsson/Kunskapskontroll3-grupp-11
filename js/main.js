@@ -19,14 +19,20 @@ function Card(n, _serverId, _id, _secret){
   this.imageNumber = n;
   this.imageLink = `https://live.staticflickr.com/${_serverId}/${_id}_${_secret}_m.jpg`;
 }
+
+
+
 let galleryButtons = document.querySelectorAll('.top-container button')
 
 
-// function removeBtn(){
-//   
-//   galleryButtons[0].style.display='none';
-//   console.log(galleryButtons);
-// }
+
+
+// Function that removes all gallery buttons
+ function removeBtn(){
+ for (galleryButton of galleryButtons){
+   galleryButton.style.display = 'none';
+ }
+}
 
 let urlGallery = '';
 urlGallery = catGallery;
@@ -36,7 +42,7 @@ catButton.addEventListener('click',
 
     this.style.display='none';
     getFlickrImg(catGallery);
-    
+    removeBtn();
   }
 
   
@@ -47,6 +53,7 @@ horseButton.addEventListener('click',
   function () {
     this.style.display='none';
     getFlickrImg(horseGallery);
+    removeBtn();
     
   }
   
@@ -56,6 +63,7 @@ dogButton.addEventListener('click',
   function () {
     this.style.display='none';
     getFlickrImg(dogGallery);
+    removeBtn();
     
   }
 )
