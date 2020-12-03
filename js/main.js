@@ -23,6 +23,10 @@ function Card(n, _serverId, _id, _secret){
 
 
 let galleryButtons = document.querySelectorAll('.top-container button')
+let btnstart=document.createElement('button');
+let topcontainer=document.querySelector('.top-container')
+
+
 
 
 
@@ -31,10 +35,13 @@ let galleryButtons = document.querySelectorAll('.top-container button')
  function removeBtn(){
  for (galleryButton of galleryButtons){
    galleryButton.style.display = 'none';
-   let btnstart=document.createElement('button');
-   let topcontainer=document.querySelector('.top-container')
-   topcontainer.appendChild(btnstart);
  }
+}
+function addBtn(){
+
+topcontainer.appendChild(btnstart);
+
+btnstart.innerText  = 'New Game';
 }
 
 let urlGallery = '';
@@ -46,10 +53,8 @@ catButton.addEventListener('click',
     this.style.display='none';
     getFlickrImg(catGallery);
     removeBtn();
+    addBtn()
   }
-
-  
-
 )
 
 horseButton.addEventListener('click',
@@ -57,6 +62,7 @@ horseButton.addEventListener('click',
     this.style.display='none';
     getFlickrImg(horseGallery);
     removeBtn();
+    addBtn()
     
   }
   
@@ -67,9 +73,21 @@ dogButton.addEventListener('click',
     this.style.display='none';
     getFlickrImg(dogGallery);
     removeBtn();
+    addBtn()
     
   }
 )
+
+btnstart.addEventListener('click',
+  function(){
+    topcontainer.removeChild(btnstart);
+    location.reload();
+  }
+)
+
+
+
+
 
 // Set this to a 
 function getFlickrImg(urlGallery){let url = `https://www.flickr.com/services/rest/?method=flickr.galleries.getPhotos&api_key=${keyAPI}&gallery_id=${urlGallery}&format=json&nojsoncallback=1?secret=${keySecret}`;
