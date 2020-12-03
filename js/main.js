@@ -31,6 +31,9 @@ let galleryButtons = document.querySelectorAll('.top-container button')
  function removeBtn(){
  for (galleryButton of galleryButtons){
    galleryButton.style.display = 'none';
+   let btnstart=document.createElement('button');
+   let topcontainer=document.querySelector('.top-container')
+   topcontainer.appendChild(btnstart);
  }
 }
 
