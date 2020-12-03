@@ -14,6 +14,12 @@ let catButton = document.querySelector('#cat-button')
 let horseButton = document.querySelector('#horse-button')
 let dogButton = document.querySelector('#dog-button')
 
+// Selects 
+let gameWrap = document.querySelector('.game-wrap');
+let galleryButtons = document.querySelectorAll('.top-container button')
+let btnstart=document.createElement('button');
+let topcontainer=document.querySelector('.top-container')
+
 // Creating a card constructor
 function Card(n, _serverId, _id, _secret){
   this.imageNumber = n;
@@ -25,12 +31,6 @@ function Card(n, _serverId, _id, _secret){
 console.dir(Card)
 
 // 
-let galleryButtons = document.querySelectorAll('.top-container button')
-let btnstart=document.createElement('button');
-let topcontainer=document.querySelector('.top-container')
-
-
-
 
 
 
@@ -106,29 +106,33 @@ fetch(url)
   function (data) {
     console.log(data)
 
+    // Getting the total number of photos from data
     let total = data.photos.total;
 
+    // Creating array for the memory cards
+    let cardDeck = []; 
 
-    let gameWrap = document.querySelector('.game-wrap');
 
-    let cardDeck = []; //Kortleken.
-
-    for (let i = 0; i<2; i++){ // Lägger in samma bilder två gånger.
-      for (let j = 0; j < total; j++){ //Lägger in alla olika bilder i arrayn.
+    // Creating a loop for getting the photos two times
+    for (let i = 0; i<2; i++){ 
+      //Creating a loop for putting the photos inside the 'cardDeck'-array
+      for (let j = 0; j < total; j++){ 
+        // Collecting the data from API
         let id = data.photos.photo[j].id;
         let serverId = data.photos.photo[j].server;
         let secret = data.photos.photo[j].secret;
         
-        console.log(id)
-
-        // Creating an instance object
+        // Creating an instance object for 'Card'
         let card = new Card(j, serverId, id, secret);
+
+        //  Pushing the cards to the 'cardDeck'-array
         cardDeck.push(card);
       }
     }
-    cardDeck.sort( (a, b) => 0.5 - Math.random() ); //Blandar kortleken.
-    console.log(cardDeck);
+    // Mixing the 'cardDeck' randomly
+    cardDeck.sort( (a, b) => 0.5 - Math.random() ); 
 
+    // Creating a loop for creating a memory card for every photo
     for (let i = 0; i < cardDeck.length; i++){
       let gameWrap = document.querySelector('.game-wrap');
       let memoryCard = document.createElement('aside');
@@ -136,14 +140,17 @@ fetch(url)
       memoryCard.classList.add('card', 'card-hidden');
       memoryCard.style.backgroundImage = `url(${cardDeck[i].imageLink})`;
       gameWrap.appendChild(memoryCard);
-      console.log(cardDeck[i].imageLink);
-      console.log(cardDeck[i].imageNumber)
+/*       console.log(cardDeck[i].imageLink);
+      console.log(cardDeck[i].imageNumber) */
     };
-    console.log(gameWrap);
-    console.log(gameWrap.children);
+/*     console.log(gameWrap);
+    console.log(gameWrap.children); */
 
+    // Collecting the card from HTML
     const card = document.querySelectorAll('aside');
+
     let hasFlippedCard = false;
+    // 
     let lockBoard =false;
     let firstCard, secondCard;
     let score =1;
@@ -164,6 +171,7 @@ fetch(url)
         console.log(firstCard.dataset.num)
         console.log(secondCard.dataset.num)
 
+        // Matches the cards
         if (firstCard.dataset.num === secondCard.dataset.num){
           firstCard.removeEventListener('click', flipCard)
           secondCard.removeEventListener('click', flipCard)
@@ -187,7 +195,8 @@ fetch(url)
         }
       }
     }
-    for (let i = 0; i<2; i++){ // Lägger in samma bilder två gånger.
+
+/*     for (let i = 0; i<2; i++){ // Lägger in samma bilder två gånger.
       for (let j = 0; j < total; j++){ //Lägger in alla olika bilder i arrayn.
         let id = data.photos.photo[j].id;
         let serverId = data.photos.photo[j].server;
@@ -196,8 +205,9 @@ fetch(url)
         let card = new Card(j, serverId, id, secret);
         cardDeck.push(card);
       }
-    }
+    } */
     
+    // Adds an event
     card.forEach(card => card.addEventListener('click', flipCard));
   }
 ).catch(
