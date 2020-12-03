@@ -14,14 +14,17 @@ let catButton = document.querySelector('#cat-button')
 let horseButton = document.querySelector('#horse-button')
 let dogButton = document.querySelector('#dog-button')
 
-// Skapar kort-objekt
+// Creating a card constructor
 function Card(n, _serverId, _id, _secret){
   this.imageNumber = n;
   this.imageLink = `https://live.staticflickr.com/${_serverId}/${_id}_${_secret}_m.jpg`;
 }
 
+/* Card.prototype.sizeSuffix = 'b'; */
 
+console.dir(Card)
 
+// 
 let galleryButtons = document.querySelectorAll('.top-container button')
 let btnstart=document.createElement('button');
 let topcontainer=document.querySelector('.top-container')
@@ -89,11 +92,10 @@ btnstart.addEventListener('click',
 
 
 
-// Set this to a 
+// Function for selecting the chosen gallery
 function getFlickrImg(urlGallery){let url = `https://www.flickr.com/services/rest/?method=flickr.galleries.getPhotos&api_key=${keyAPI}&gallery_id=${urlGallery}&format=json&nojsoncallback=1?secret=${keySecret}`;
 
-
-
+// Fetching the data from the selected url
 fetch(url)
 .then(function (response) {
   if (response.status >= 200 && response.status < 300) {
@@ -106,7 +108,6 @@ fetch(url)
 
     let total = data.photos.total;
 
-    let sizeSuffix = 'm';
 
     let gameWrap = document.querySelector('.game-wrap');
 
@@ -120,6 +121,7 @@ fetch(url)
         
         console.log(id)
 
+        // Creating an instance object
         let card = new Card(j, serverId, id, secret);
         cardDeck.push(card);
       }
