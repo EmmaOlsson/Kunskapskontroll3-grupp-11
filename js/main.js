@@ -1,4 +1,3 @@
-
 // Setting the api-key to a variable
 const keyAPI = 'ede2a0d6e77e60346537e570cfab9800';
 
@@ -21,25 +20,85 @@ function Card(n, _serverId, _id, _secret){
   this.imageLink = `https://live.staticflickr.com/${_serverId}/${_id}_${_secret}_m.jpg`;
 }
 
-// Set this to a 
-function chooseGallery() {
 
-  return catGallery;
+
+let galleryButtons = document.querySelectorAll('.top-container button')
+let btnstart=document.createElement('button');
+let topcontainer=document.querySelector('.top-container')
+
+
+
+
+
+
+// Function that removes all gallery buttons
+ function removeBtn(){
+ for (galleryButton of galleryButtons){
+   galleryButton.style.display = 'none';
+ }
+}
+function addBtn(){
+
+topcontainer.appendChild(btnstart);
+
+btnstart.innerText  = 'New Game';
 }
 
-catButton.addEventListener('click', chooseGallery);
+let urlGallery = '';
+urlGallery = catGallery;
 
-// If the user clicks on cat, the urlGallery = catGallery
-let urlGallery = chooseGallery();
+catButton.addEventListener('click',
+  function () {
 
-let url = `https://www.flickr.com/services/rest/?method=flickr.galleries.getPhotos&api_key=${keyAPI}&gallery_id=${urlGallery}&format=json&nojsoncallback=1?secret=${keySecret}`;
+    this.style.display='none';
+    getFlickrImg(catGallery);
+    removeBtn();
+    addBtn()
+  }
+)
+
+horseButton.addEventListener('click',
+  function () {
+    this.style.display='none';
+    getFlickrImg(horseGallery);
+    removeBtn();
+    addBtn()
+    
+  }
+  
+)
+
+dogButton.addEventListener('click',
+  function () {
+    this.style.display='none';
+    getFlickrImg(dogGallery);
+    removeBtn();
+    addBtn()
+    
+  }
+)
+
+btnstart.addEventListener('click',
+  function(){
+    topcontainer.removeChild(btnstart);
+    location.reload();
+  }
+)
+
+
+
+
+
+// Set this to a 
+function getFlickrImg(urlGallery){let url = `https://www.flickr.com/services/rest/?method=flickr.galleries.getPhotos&api_key=${keyAPI}&gallery_id=${urlGallery}&format=json&nojsoncallback=1?secret=${keySecret}`;
+
 
 
 fetch(url)
 .then(function (response) {
   if (response.status >= 200 && response.status < 300) {
     return response.json();
-  }
+  } else {throw 'An error occured'}
 })
 .then(
   function (data) {
@@ -58,6 +117,8 @@ fetch(url)
         let id = data.photos.photo[j].id;
         let serverId = data.photos.photo[j].server;
         let secret = data.photos.photo[j].secret;
+        
+        console.log(id)
 
         let card = new Card(j, serverId, id, secret);
         cardDeck.push(card);
@@ -69,24 +130,78 @@ fetch(url)
     for (let i = 0; i < cardDeck.length; i++){
       let gameWrap = document.querySelector('.game-wrap');
       let memoryCard = document.createElement('aside');
-      memoryCard.classList.add('card');
+      memoryCard.dataset.num=cardDeck[i].imageNumber;
+      memoryCard.classList.add('card', 'card-hidden');
       memoryCard.style.backgroundImage = `url(${cardDeck[i].imageLink})`;
       gameWrap.appendChild(memoryCard);
       console.log(cardDeck[i].imageLink);
+      console.log(cardDeck[i].imageNumber)
     };
     console.log(gameWrap);
     console.log(gameWrap.children);
-    
-    const card = document.querySelector('.game-wrap');
-    card.addEventListener('click', function(e){
-      if (e.target.classList.contains('card')){
-        e.target.classList = '';
-        e.target.classList.add('card-show-image');
+
+    const card = document.querySelectorAll('aside');
+    let hasFlippedCard = false;
+    let lockBoard =false;
+    let firstCard, secondCard;
+    let score =1;
+    let tries =1;
+    function flipCard() {
+      if (lockBoard) return;
+      if(this === firstCard) return;
+      this.classList='';
+      this.classList.add('card');
+      if (!hasFlippedCard) {
+        hasFlippedCard = true;
+        firstCard = this;
+        
+      }else{
+        hasFlippedCard=false;
+        secondCard=this;
+        
+        console.log(firstCard.dataset.num)
+        console.log(secondCard.dataset.num)
+
+        if (firstCard.dataset.num === secondCard.dataset.num){
+          firstCard.removeEventListener('click', flipCard)
+          secondCard.removeEventListener('click', flipCard)
+          let scoreh = document.querySelector('.score');
+          scoreh.innerHTML=`Score: ${score}`
+          score++;
+          console.log(score)
+          let triesh = document.querySelector('.tries');
+          triesh.innerHTML=`Tries: ${tries}`
+          tries++;
+        }else{
+          lockBoard=true;
+          setTimeout(function(){
+            firstCard.classList.add('card-hidden')
+            secondCard.classList.add('card-hidden')
+            let triesh = document.querySelector('.tries');
+            triesh.innerHTML=`Tries: ${tries}`
+            tries++;
+            lockBoard=false;
+          }, 1000);
+        }
       }
-    });
+    }
+    for (let i = 0; i<2; i++){ // Lägger in samma bilder två gånger.
+      for (let j = 0; j < total; j++){ //Lägger in alla olika bilder i arrayn.
+        let id = data.photos.photo[j].id;
+        let serverId = data.photos.photo[j].server;
+        let secret = data.photos.photo[j].secret;
+
+        let card = new Card(j, serverId, id, secret);
+        cardDeck.push(card);
+      }
+    }
+    
+    card.forEach(card => card.addEventListener('click', flipCard));
   }
 ).catch(
   error => {
     console.log('Fel: ', error);
+
   }
 );
+}
