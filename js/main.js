@@ -19,19 +19,50 @@ function Card(n, _serverId, _id, _secret){
   this.imageNumber = n;
   this.imageLink = `https://live.staticflickr.com/${_serverId}/${_id}_${_secret}_m.jpg`;
 }
+let galleryButtons = document.querySelectorAll('.top-container button')
+
+
+// function removeBtn(){
+//   
+//   galleryButtons[0].style.display='none';
+//   console.log(galleryButtons);
+// }
+
+let urlGallery = '';
+urlGallery = catGallery;
+
+catButton.addEventListener('click',
+  function () {
+
+    this.style.display='none';
+    getFlickrImg(catGallery);
+    
+  }
+
+  
+
+)
+
+horseButton.addEventListener('click',
+  function () {
+    this.style.display='none';
+    getFlickrImg(horseGallery);
+    
+  }
+  
+)
+
+dogButton.addEventListener('click',
+  function () {
+    this.style.display='none';
+    getFlickrImg(dogGallery);
+    
+  }
+)
 
 // Set this to a 
-function chooseGallery() {
+function getFlickrImg(urlGallery){let url = `https://www.flickr.com/services/rest/?method=flickr.galleries.getPhotos&api_key=${keyAPI}&gallery_id=${urlGallery}&format=json&nojsoncallback=1?secret=${keySecret}`;
 
-  return catGallery;
-}
-
-catButton.addEventListener('click', chooseGallery);
-
-// If the user clicks on cat, the urlGallery = catGallery
-let urlGallery = chooseGallery();
-
-let url = `https://www.flickr.com/services/rest/?method=flickr.galleries.getPhotos&api_key=${keyAPI}&gallery_id=${urlGallery}&format=json&nojsoncallback=1?secret=${keySecret}`;
 
 
 fetch(url)
@@ -71,7 +102,7 @@ fetch(url)
       let gameWrap = document.querySelector('.game-wrap');
       let memoryCard = document.createElement('aside');
       memoryCard.dataset.num=cardDeck[i].imageNumber;
-      memoryCard.classList.add('card');
+      memoryCard.classList.add('card', 'card-hidden');
       memoryCard.style.backgroundImage = `url(${cardDeck[i].imageLink})`;
       gameWrap.appendChild(memoryCard);
       console.log(cardDeck[i].imageLink);
@@ -82,12 +113,15 @@ fetch(url)
 
     const card = document.querySelectorAll('aside');
     let hasFlippedCard = false;
+    let lockBoard =false;
     let firstCard, secondCard;
     let score =1;
     let tries =1;
     function flipCard() {
+      if (lockBoard) return;
+      if(this === firstCard) return;
       this.classList='';
-      this.classList.add('card-show-image');
+      this.classList.add('card');
       if (!hasFlippedCard) {
         hasFlippedCard = true;
         firstCard = this;
@@ -110,16 +144,27 @@ fetch(url)
           triesh.innerHTML=`Tries: ${tries}`
           tries++;
         }else{
-          firstCard.classList.remove('card-show-image')
-          secondCard.classList.remove('card-show-image')
-          let triesh = document.querySelector('.tries');
-          triesh.innerHTML=`Tries: ${tries}`
-          tries++;
+          lockBoard=true;
+          setTimeout(function(){
+            firstCard.classList.add('card-hidden')
+            secondCard.classList.add('card-hidden')
+            let triesh = document.querySelector('.tries');
+            triesh.innerHTML=`Tries: ${tries}`
+            tries++;
+            lockBoard=false;
+          }, 1000);
         }
-        
       }
+    }
+    for (let i = 0; i<2; i++){ // Lägger in samma bilder två gånger.
+      for (let j = 0; j < total; j++){ //Lägger in alla olika bilder i arrayn.
+        let id = data.photos.photo[j].id;
+        let serverId = data.photos.photo[j].server;
+        let secret = data.photos.photo[j].secret;
 
-
+        let card = new Card(j, serverId, id, secret);
+        cardDeck.push(card);
+      }
     }
     
     card.forEach(card => card.addEventListener('click', flipCard));
@@ -129,3 +174,4 @@ fetch(url)
     console.log('Fel: ', error);
   }
 );
+}
