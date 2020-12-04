@@ -1,6 +1,7 @@
-body {
-  padding: 0;
-  margin: 0;
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
 }
 main {
   background-color: azure;
@@ -29,6 +30,7 @@ header {
   grid-template-columns: repeat(6, minmax(5rem, 16%));
   grid-template-rows: repeat(4, repeat(minmax(1fr, 8rem)));
   gap: calc(10px + 1%);
+  padding: 1rem;
 }
 .top-container button {
   background-color: rgb(11, 11, 165);
