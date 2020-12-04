@@ -17,22 +17,22 @@ let dogButton = document.querySelector('#dog-button')
 // Selects 
 let gameWrap = document.querySelector('.game-wrap');
 let galleryButtons = document.querySelectorAll('.top-container button')
-let btnstart=document.createElement('button');
-let topcontainer=document.querySelector('.top-container')
+let btnstart = document.createElement('button');
+let topcontainer = document.querySelector('.top-container')
 
 // Creating a card constructor
 function Card(n, _serverId, _id, _secret){
   this.imageNumber = n;
-  this.imageLink = `https://live.staticflickr.com/${_serverId}/${_id}_${_secret}_m.jpg`;
+  
+  this.serverId = _serverId;
+  this.id = _id;
+  this.secret = _secret;
+}
+Card.prototype.imageLink = function(){
+  return `https://live.staticflickr.com/${this.serverId}/${this.id}_${this.secret}_m.jpg`;
 }
 
-/* Card.prototype.sizeSuffix = 'b'; */
-
 console.dir(Card)
-
-// 
-
-
 
 // Function that removes all gallery buttons
  function removeBtn(){
@@ -52,7 +52,6 @@ urlGallery = catGallery;
 
 catButton.addEventListener('click',
   function () {
-
     this.style.display='none';
     getFlickrImg(catGallery);
     removeBtn();
@@ -66,9 +65,7 @@ horseButton.addEventListener('click',
     getFlickrImg(horseGallery);
     removeBtn();
     addBtn()
-    
   }
-  
 )
 
 dogButton.addEventListener('click',
@@ -77,7 +74,6 @@ dogButton.addEventListener('click',
     getFlickrImg(dogGallery);
     removeBtn();
     addBtn()
-    
   }
 )
 
@@ -88,12 +84,9 @@ btnstart.addEventListener('click',
   }
 )
 
-
-
-
-
 // Function for selecting the chosen gallery
-function getFlickrImg(urlGallery){let url = `https://www.flickr.com/services/rest/?method=flickr.galleries.getPhotos&api_key=${keyAPI}&gallery_id=${urlGallery}&format=json&nojsoncallback=1?secret=${keySecret}`;
+function getFlickrImg(urlGallery){
+  let url = `https://www.flickr.com/services/rest/?method=flickr.galleries.getPhotos&api_key=${keyAPI}&gallery_id=${urlGallery}&format=json&nojsoncallback=1?secret=${keySecret}`;
 
 // Fetching the data from the selected url
 fetch(url)
@@ -111,7 +104,6 @@ fetch(url)
 
     // Creating array for the memory cards
     let cardDeck = []; 
-
 
     // Creating a loop for getting the photos two times
     for (let i = 0; i<2; i++){ 
@@ -136,29 +128,24 @@ fetch(url)
     for (let i = 0; i < cardDeck.length; i++){
       let gameWrap = document.querySelector('.game-wrap');
       let memoryCard = document.createElement('aside');
-      memoryCard.dataset.num=cardDeck[i].imageNumber;
+      memoryCard.dataset.num = cardDeck[i].imageNumber;
       memoryCard.classList.add('card', 'card-hidden');
-      memoryCard.style.backgroundImage = `url(${cardDeck[i].imageLink})`;
+      memoryCard.style.backgroundImage = `url(${cardDeck[i].imageLink()})`;
       gameWrap.appendChild(memoryCard);
-/*       console.log(cardDeck[i].imageLink);
-      console.log(cardDeck[i].imageNumber) */
     };
-/*     console.log(gameWrap);
-    console.log(gameWrap.children); */
 
     // Collecting the card from HTML
     const card = document.querySelectorAll('aside');
 
     let hasFlippedCard = false;
-    // 
-    let lockBoard =false;
+    let lockBoard = false;
     let firstCard, secondCard;
-    let score =1;
-    let tries =1;
+    let score = 1;
+    let tries = 1;
     function flipCard() {
       if (lockBoard) return;
       if(this === firstCard) return;
-      this.classList='';
+      this.classList = '';
       this.classList.add('card');
       if (!hasFlippedCard) {
         hasFlippedCard = true;
@@ -176,36 +163,25 @@ fetch(url)
           firstCard.removeEventListener('click', flipCard)
           secondCard.removeEventListener('click', flipCard)
           let scoreh = document.querySelector('.score');
-          scoreh.innerHTML=`Score: ${score}`
+          scoreh.innerHTML = `Score: ${score}`
           score++;
           console.log(score)
           let triesh = document.querySelector('.tries');
-          triesh.innerHTML=`Tries: ${tries}`
+          triesh.innerHTML = `Tries: ${tries}`
           tries++;
-        }else{
+        } else{
           lockBoard=true;
           setTimeout(function(){
             firstCard.classList.add('card-hidden')
             secondCard.classList.add('card-hidden')
             let triesh = document.querySelector('.tries');
-            triesh.innerHTML=`Tries: ${tries}`
+            triesh.innerHTML = `Tries: ${tries}`
             tries++;
             lockBoard=false;
           }, 1000);
         }
       }
     }
-
-/*     for (let i = 0; i<2; i++){ // Lägger in samma bilder två gånger.
-      for (let j = 0; j < total; j++){ //Lägger in alla olika bilder i arrayn.
-        let id = data.photos.photo[j].id;
-        let serverId = data.photos.photo[j].server;
-        let secret = data.photos.photo[j].secret;
-
-        let card = new Card(j, serverId, id, secret);
-        cardDeck.push(card);
-      }
-    } */
     
     // Adds an event
     card.forEach(card => card.addEventListener('click', flipCard));
