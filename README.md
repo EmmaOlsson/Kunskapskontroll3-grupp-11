@@ -1,4 +1,7 @@
 # Kunskapskontroll3-grupp-11
 Memory Game
 
-Test
+Ansvarsområden: 
+API: Emma.
+DOM: Jonathan.
+Logik: Mamoun.
