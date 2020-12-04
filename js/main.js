@@ -14,20 +14,24 @@ let catButton = document.querySelector('#cat-button')
 let horseButton = document.querySelector('#horse-button')
 let dogButton = document.querySelector('#dog-button')
 
-// Selects 
+// Selects elements from HTML
 let gameWrap = document.querySelector('.game-wrap');
 let galleryButtons = document.querySelectorAll('.top-container button')
-let btnstart = document.createElement('button');
 let topcontainer = document.querySelector('.top-container')
 
+
+// Creates a button.element
+let newGameBtn = document.createElement('button');
+
 // Creating a card constructor
-function Card(n, _serverId, _id, _secret){
-  this.imageNumber = n;
-  
+function Card(_imageNumber, _serverId, _id, _secret){
+  this.imageNumber = _imageNumber;
   this.serverId = _serverId;
   this.id = _id;
   this.secret = _secret;
 }
+
+// Creating a card prototype
 Card.prototype.imageLink = function(){
   return `https://live.staticflickr.com/${this.serverId}/${this.id}_${this.secret}_m.jpg`;
 }
@@ -40,46 +44,45 @@ console.dir(Card)
    galleryButton.style.display = 'none';
  }
 }
+
+// Function that appends the 'New Game'-button to top-container and givin the button a text
 function addBtn(){
-
-topcontainer.appendChild(btnstart);
-
-btnstart.innerText  = 'New Game';
+topcontainer.appendChild(newGameBtn);
+newGameBtn.innerText  = 'New Game';
 }
 
-let urlGallery = '';
-urlGallery = catGallery;
 
+// Eventlistener for the 'catButton'
 catButton.addEventListener('click',
   function () {
-    this.style.display='none';
     getFlickrImg(catGallery);
     removeBtn();
     addBtn()
   }
 )
 
+// Eventlistener for the 'horseButton'
 horseButton.addEventListener('click',
   function () {
-    this.style.display='none';
     getFlickrImg(horseGallery);
     removeBtn();
     addBtn()
   }
 )
 
+// Eventlistener for the 'dogButton'
 dogButton.addEventListener('click',
   function () {
-    this.style.display='none';
     getFlickrImg(dogGallery);
     removeBtn();
     addBtn()
   }
 )
 
-btnstart.addEventListener('click',
+// // Eventlistener for the 'newGameBtn' that removes the button and reloads the game
+newGameBtn.addEventListener('click',
   function(){
-    topcontainer.removeChild(btnstart);
+    topcontainer.removeChild(newGameBtn);
     location.reload();
   }
 )
@@ -93,7 +96,10 @@ fetch(url)
 .then(function (response) {
   if (response.status >= 200 && response.status < 300) {
     return response.json();
-  } else {throw 'An error occured'}
+    // Shows an error alert and throws the error to the error handler
+  } else {
+    throw 'An error occured'
+  }
 })
 .then(
   function (data) {
@@ -107,8 +113,10 @@ fetch(url)
 
     // Creating a loop for getting the photos two times
     for (let i = 0; i<2; i++){ 
+
       //Creating a loop for putting the photos inside the 'cardDeck'-array
       for (let j = 0; j < total; j++){ 
+
         // Collecting the data from API
         let id = data.photos.photo[j].id;
         let serverId = data.photos.photo[j].server;
@@ -117,8 +125,10 @@ fetch(url)
         // Creating an instance object for 'Card'
         let card = new Card(j, serverId, id, secret);
 
-        //  Pushing the cards to the 'cardDeck'-array
+        // Pushing the cards to the 'cardDeck'-array
         cardDeck.push(card);
+
+
       }
     }
     // Mixing the 'cardDeck' randomly
@@ -126,17 +136,16 @@ fetch(url)
 
     // Creating a loop for creating a memory card for every photo
     for (let i = 0; i < cardDeck.length; i++){
-      let gameWrap = document.querySelector('.game-wrap');
       let memoryCard = document.createElement('aside');
+      // 
       memoryCard.dataset.num = cardDeck[i].imageNumber;
       memoryCard.classList.add('card', 'card-hidden');
       memoryCard.style.backgroundImage = `url(${cardDeck[i].imageLink()})`;
       gameWrap.appendChild(memoryCard);
     };
 
-    // Collecting the card from HTML
+    // 
     const card = document.querySelectorAll('aside');
-
     let hasFlippedCard = false;
     let lockBoard = false;
     let firstCard, secondCard;
@@ -150,20 +159,17 @@ fetch(url)
       if (!hasFlippedCard) {
         hasFlippedCard = true;
         firstCard = this;
-        
       }else{
         hasFlippedCard = false;
         secondCard = this;
-        
-        console.log(firstCard.dataset.num)
-        console.log(secondCard.dataset.num)
+      
 
-        // Matches the cards
+        // 
         if (firstCard.dataset.num === secondCard.dataset.num){
           firstCard.removeEventListener('click', flipCard)
           secondCard.removeEventListener('click', flipCard)
           let scoreh = document.querySelector('.score');
-          scoreh.innerHTML = `Score: ${score}`
+          scoreh.innerHTML = `Pairs found: ${score} / 12`
           score++;
           console.log(score)
           let triesh = document.querySelector('.tries');
@@ -190,9 +196,10 @@ fetch(url)
     }
 
     
-    // Adds an event
+    // 
     card.forEach(card => card.addEventListener('click', flipCard));
   }
+  // Catchese the error thrown in the respons function
 ).catch(
   error => {
     console.log('Fel: ', error);

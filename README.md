@@ -4,20 +4,29 @@ Gruppmedlemmar:
 - Emma Olsson
 - Mamoun Alchalabi
 
-Ansvarsområden:
+
+<!-- Ansvarsområden -->
+
+Vi delade upp 
+Gruppmedlemmarna huvudsakliga ansvarsområden:
 
 - Gemensamt skapade vi index.html och grunddesignen för spelet i style.css
+- 
 
 Jonathan:
+- DOM-manipulation
+- Huvudansvar för CSS och HTML
 
 Emma:
+- API
+- Assynkronisk programmering
+- ReadMe-filen
 
 Mamoun:
+- Spelets logik
 
+<!-- Memory Game -->
 
-Memory Game
-
-Test
 - Innan spelet startar behöver användaren välja om memorykorten ska bestå av bilder på katter, hästar eller hundar.
 
 - När användaren valt kategori sker följande:
@@ -29,5 +38,5 @@ Test
     - Om två lika kort visas kommer bilderna som matchar inte att vändas tillbaka. Antal försök (tries) kommer att öka med ett och antal poäng (score) kommer att öka med ett.
 
 - Spelet är slut när användaren har hittat 24 matchande bilder och dessa är vända uppåt. 
-- Användaren får upp en alert om hur många försök (tries) spelet klarades på.
+- Användaren får då upp en alert om hur många försök (tries) spelet klarades på.
 

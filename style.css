@@ -13,9 +13,14 @@ header {
   display: flex;
   justify-content: space-around;
 }
-.title {
+.title, .instructions {
   text-align: center;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.instructions{
+  font-weight: 300;
+  padding: .4rem 0;
 }
 .top-container {
   display: flex;
