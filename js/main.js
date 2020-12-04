@@ -152,8 +152,8 @@ fetch(url)
         firstCard = this;
         
       }else{
-        hasFlippedCard=false;
-        secondCard=this;
+        hasFlippedCard = false;
+        secondCard = this;
         
         console.log(firstCard.dataset.num)
         console.log(secondCard.dataset.num)
@@ -183,7 +183,9 @@ fetch(url)
       }
       // Shows an alert with numbers of tries, when completing the game 
       if (score === 13) {
-        alert(`Congratulations! You completed the game with ${tries-1} tries`);
+        setTimeout(function(){
+          alert(`Congratulations! You completed the game with ${tries-1} tries`);
+        }, 500);
       }
     }
 
