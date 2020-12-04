@@ -15,8 +15,6 @@ Emma:
 Mamoun:
 
 
-
-
 Memory Game
 
 Test
@@ -31,5 +29,5 @@ Test
     - Om två lika kort visas kommer bilderna som matchar inte att vändas tillbaka. Antal försök (tries) kommer att öka med ett och antal poäng (score) kommer att öka med ett.
 
 - Spelet är slut när användaren har hittat 24 matchande bilder och dessa är vända uppåt. 
-- Användare får upp en alert om hur många försök (tries) spelet klarades på
+- Användaren får upp en alert om hur många försök (tries) spelet klarades på.
 

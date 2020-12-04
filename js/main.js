@@ -181,7 +181,12 @@ fetch(url)
           }, 1000);
         }
       }
+      // Shows an alert with numbers of tries, when completing the game 
+      if (score === 13) {
+        alert(`Congratulations! You completed the game with ${tries-1} tries`);
+      }
     }
+
     
     // Adds an event
     card.forEach(card => card.addEventListener('click', flipCard));
