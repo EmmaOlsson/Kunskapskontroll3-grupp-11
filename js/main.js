@@ -144,13 +144,16 @@ fetch(url)
       gameWrap.appendChild(memoryCard);
     };
 
-    // 
+    // select the cards
     const card = document.querySelectorAll('aside');
+    // make varibels for fliping the cards 
     let hasFlippedCard = false;
-    let lockBoard = false;
     let firstCard, secondCard;
     let score = 1;
     let tries = 1;
+    // varible for locke the board and fix the bugs 
+    let lockBoard = false;
+    //function for flipping the cards
     function flipCard() {
       if (lockBoard) return;
       if(this === firstCard) return;
@@ -164,7 +167,7 @@ fetch(url)
         secondCard = this;
       
 
-        // 
+        // if statment for matching cards
         if (firstCard.dataset.num === secondCard.dataset.num){
           firstCard.removeEventListener('click', flipCard)
           secondCard.removeEventListener('click', flipCard)
