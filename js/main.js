@@ -155,7 +155,9 @@ fetch(url)
     let lockBoard = false;
     //function for flipping the cards
     function flipCard() {
+    //we need to lock the board to avoid two sets of cards being turned at the same time, otherwise the flipping will fail.
       if (lockBoard) return;
+    //There is still the case where the player can click twice on the same card. The matching condition would evaluate to true, removing the event listener from that card.
       if(this === firstCard) return;
       this.classList = '';
       this.classList.add('card');
@@ -167,24 +169,25 @@ fetch(url)
         secondCard = this;
       
 
-        // if statment for matching cards
+    // if statment for matching cards
         if (firstCard.dataset.num === secondCard.dataset.num){
           firstCard.removeEventListener('click', flipCard)
           secondCard.removeEventListener('click', flipCard)
-          let scoreh = document.querySelector('.score');
-          scoreh.innerHTML = `Pairs found: ${score} / 12`
+          let scoreCounter = document.querySelector('.score');
+          scoreCounter.innerHTML = `Pairs found: ${score} / 12`
           score++;
           console.log(score)
-          let triesh = document.querySelector('.tries');
-          triesh.innerHTML = `Tries: ${tries}`
+          let triesCounter = document.querySelector('.tries');
+          triesCounter.innerHTML = `Tries: ${tries}`
           tries++;
         } else{
+    //When the player clicks the second card, lockBoard will be set to true and the condition if (lockBoard) return; will prevent any card flipping before the cards are hidden or match
           lockBoard=true;
           setTimeout(function(){
             firstCard.classList.add('card-hidden')
             secondCard.classList.add('card-hidden')
-            let triesh = document.querySelector('.tries');
-            triesh.innerHTML = `Tries: ${tries}`
+            let triesCounter = document.querySelector('.tries');
+            triesCounter.innerHTML = `Tries: ${tries}`
             tries++;
             lockBoard=false;
           }, 1000);
