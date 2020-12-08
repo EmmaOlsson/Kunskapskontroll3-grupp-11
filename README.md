@@ -7,11 +7,11 @@ Gruppmedlemmar:
 
 <!-- Ansvarsområden -->
 
-Vi delade upp 
-Gruppmedlemmarna huvudsakliga ansvarsområden:
 
-- Gemensamt skapade vi index.html och grunddesignen för spelet i style.css
-- 
+Gemensamt skapade vi index.html och grunddesignen för spelet i style.css
+Vi delade upp ansvarsområdena enligt nedan, men har under arbetets gång hjälpts åt när det dykt upp problem.
+
+Gruppmedlemmarna huvudsakliga ansvarsområden:
 
 Jonathan:
 - DOM-manipulation
@@ -39,4 +39,6 @@ Mamoun:
 
 - Spelet är slut när användaren har hittat 24 matchande bilder och dessa är vända uppåt. 
 - Användaren får då upp en alert om hur många försök (tries) spelet klarades på.
+
+- Användaren har möjlighet att starta om spelet när som helst genom att klicka på 'New Game'-knappen. De olika kategorialternativen kommer då upp igen.
 
