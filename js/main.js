@@ -202,7 +202,7 @@ fetch(url)
     }
 
     
-    // 
+  
     card.forEach(card => card.addEventListener('click', flipCard));
   }
   // Catchese the error thrown in the respons function
